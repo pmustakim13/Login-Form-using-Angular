@@ -13,9 +13,9 @@ declare var window: any;
   styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent implements OnInit {
-  // A master list to hold all users fetched from the API
+  
   allUsers: any[] = [];
-  // The list of users to be displayed after filtering
+  
   users: any[] = []; 
   
   paginatedUsers: any[] = [];
@@ -46,14 +46,14 @@ export class DashboardComponent implements OnInit {
 
   loadUsers(): void {
     this.apiService.getUsers().subscribe(data => {
-      // Populate both the master list and the displayed list initially
+      
       this.allUsers = data;
       this.users = data;
       this.updatePaginatedUsers();
     });
   }
 
-  // THIS IS THE MISSING FUNCTION
+  
   applyFilter(event: Event): void {
     const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
     
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
       );
     }
 
-    this.currentPage = 1; // Reset to first page after any search
+    this.currentPage = 1; 
     this.updatePaginatedUsers();
   }
   
@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit {
 
     if (this.isEditMode && this.currentUserId) {
       this.apiService.updateUser(this.currentUserId, userData).subscribe(updatedUser => {
-        // Update both the master list and the filtered list
+        
         let index = this.users.findIndex(u => u.id === this.currentUserId);
         if (index !== -1) this.users[index] = updatedUser;
         
@@ -120,7 +120,7 @@ export class DashboardComponent implements OnInit {
       });
     } else {
       this.apiService.addUser(userData).subscribe(newUser => {
-        // Add to both lists to ensure consistency
+        
         this.users.unshift(newUser);
         this.allUsers.unshift(newUser);
         this.updatePaginatedUsers();
@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
   onDelete(userId: number): void {
     if (confirm('Are you sure you want to delete this user?')) {
       this.apiService.deleteUser(userId).subscribe(() => {
-        // Remove from both lists
+        
         this.users = this.users.filter(u => u.id !== userId);
         this.allUsers = this.allUsers.filter(u => u.id !== userId);
 
